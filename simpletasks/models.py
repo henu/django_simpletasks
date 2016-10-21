@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 class ScheduledTask(models.Model):
@@ -10,7 +9,7 @@ class Task(models.Model):
     func = models.TextField()
     args = models.TextField()
 
-    start_at = models.DateTimeField(default=timezone.now)
+    start_at = models.DateTimeField(blank=True, null=True, default=None)
     expires_at = models.DateTimeField(blank=True, null=True, default=None)
     timeout = models.DurationField(blank=True, null=True, default=None)
 
@@ -18,6 +17,13 @@ class Task(models.Model):
     finished_at = models.DateTimeField(blank=True, null=True, default=None)
 
     error = models.BooleanField(default=False)
-    output = models.TextField()
+    output = models.TextField(blank=True, null=True, default=None)
 
     scheduled_task = models.ForeignKey(ScheduledTask, related_name='tasks')
+
+    def __unicode__(self):
+        return self.func
+
+
+class Process(models.Model):
+    pass
